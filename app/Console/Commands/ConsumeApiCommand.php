@@ -3,8 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use App\Services\ExternalApiService;
+use App\Services\UserCollectionService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
+
+
 
 class ConsumeApiCommand extends Command
 {
@@ -39,38 +42,42 @@ class ConsumeApiCommand extends Command
      *
      * @return
      */
-    public function handle()
+    public function handle(UserCollectionService $userCollectionService ,ExternalApiService $externalApiService)
     {
-//         Validating Api Url
+//This ask Api Url Input
+
         $url = $this->ask('Please input api url here:');
+
+//Validates Url Input
+
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            $this->error("Invalid Api URL. Exiting...");
+            $this->error("INVALID API URL. Exiting........");
             return 1;
         }
+
 //here we added the page number as options
+
         $page = $this->option('?page');
-        $response = Http::get($url.$page)->body();
+
+// Taking Api Url Here
+
+     $response = $externalApiService->consumeUrl($url,$page);
 
 //Decode the data from response
-         $results = json_decode($response);
 
-//Storing  Api on database this would be moved to service  and try catch needed
-        foreach ($results->data as $data){
-            $user = new User;
-            $user->id = $data->id;
-            $user->first_name = $data->first_name;
-            $user->last_name = $data->last_name;
-            $user->email = $data->email;
-            $user->avatar = $data->avatar;
-            $user->save();
-        }
+        $users = json_decode($response);
+
+//This calls the user collection service class
+
+        $userCollectionService->createUser($users);
+
+//This echo out the stored user table in terminal
 
          $headers = ['ID','FirstName', 'LastName','Email','Avatar'];
          $users = User::Select('id','first_name','last_name','email','avatar')->get();
          $this->table($headers,$users);
 
          $this->info('Api successfully stored ');
+
     }
-
-
 }
