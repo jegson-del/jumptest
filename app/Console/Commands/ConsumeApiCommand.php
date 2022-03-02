@@ -78,6 +78,6 @@ class ConsumeApiCommand extends Command
          $this->table($headers,$users);
 
          $this->info('Api successfully stored ');
-
+         return 0;
     }
 }

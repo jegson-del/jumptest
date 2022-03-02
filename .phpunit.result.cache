@@ -1,1 +1,0 @@
-{"version":1,"defects":{"Tests\\Unit\\ConsumeApiCommandTest::test_command_prompts_for_user_input":4},"times":{"Tests\\Unit\\ConsumeApiCommandTest::test_consume_api_command_exist":0.004,"Tests\\Unit\\ExampleTest::test_example":0,"Tests\\Feature\\ExampleTest::test_example":0.125,"Tests\\Unit\\ConsumeApiCommandTest::test_command_prompts_for_user_input":0.001}}

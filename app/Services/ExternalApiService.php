@@ -14,4 +14,6 @@ class ExternalApiService implements ExternalApiServiceInterface
   {
       return Http::get($url.$page)->body();
   }
+
+
 }

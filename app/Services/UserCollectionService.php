@@ -11,8 +11,11 @@ class UserCollectionService implements UserCollectionServiceInterface
 {
     public function createUser($users)
     {
+
         foreach ($users->data as $data){
-//            check if it exist
+
+//check if Api data already exists
+
             if (User::where('id', '=', $data->id)->exists()) {
 
                 exit('users from this api already exist on database');
