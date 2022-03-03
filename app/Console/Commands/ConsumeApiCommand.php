@@ -61,7 +61,7 @@ class ConsumeApiCommand extends Command
 
 // Taking Api Url Here
 
-     $response = $externalApiService->consumeUrl($url,$page);
+        $response = $externalApiService->consumeUrl($url,$page);
 
 //Decode the data from response
 
