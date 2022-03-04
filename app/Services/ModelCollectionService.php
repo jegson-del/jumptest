@@ -20,7 +20,6 @@ class ModelCollectionService implements ModelCollectionServiceInterface
 
             }
 
-            {
                 $model = new $model;
                 $model->first_name = $data->first_name;
                 $model->last_name = $data->last_name;
@@ -28,8 +27,6 @@ class ModelCollectionService implements ModelCollectionServiceInterface
                 $model->avatar = $data->avatar;
 
                 $model->save();
-
-            }
 
         }
     }
