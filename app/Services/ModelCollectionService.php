@@ -6,15 +6,19 @@ namespace App\Services;
 
 
 
-
-use Illuminate\Support\Facades\DB;
-
 class ModelCollectionService implements ModelCollectionServiceInterface
 {
     public function modelCollection($model,  $httpRes)
     {
         foreach ($httpRes->data as $data){
 
+            //check if Api data already exists
+
+//            if ($model->where('id', '=', $data->id)->exists());
+//            {
+//                DB::rollBack($model);
+//                exit('data from this api already exist on database');
+//            }
 
             $model = new $model;
             $model->first_name = $data->first_name;
@@ -23,14 +27,6 @@ class ModelCollectionService implements ModelCollectionServiceInterface
             $model->avatar = $data->avatar;
 
             $model->save();
-
-            //check if Api data already exists
-//            if ($model->where('id', '=', $data->id)->exists());
-//            {
-//                DB::rollBack($model);
-//                exit('data from this api already exist on database');
-//            }
-
 
 
 

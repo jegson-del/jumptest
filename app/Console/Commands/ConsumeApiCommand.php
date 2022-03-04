@@ -70,7 +70,7 @@ class ConsumeApiCommand extends Command
         $httpRes = json_decode($response);
 
 
-        //This calls the user collection service class
+        //This calls the  modelCollection service class passing in new instance of user model
 
         $model = new User;
         $modelCollectionService->modelCollection( $model , $httpRes);
