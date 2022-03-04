@@ -17,7 +17,7 @@ class ConsumeApiCommand extends Command
      *
      * @var string
      */
-//   Added option for paginated page number {?page}
+    // Added option for paginated page number {?page}
     protected $signature = 'consume:api {--?page}';
 
     /**
