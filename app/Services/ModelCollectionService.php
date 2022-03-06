@@ -4,6 +4,8 @@
 namespace App\Services;
 
 
+
+
 class ModelCollectionService implements ModelCollectionServiceInterface
 {
 
@@ -11,9 +13,10 @@ class ModelCollectionService implements ModelCollectionServiceInterface
     {
         foreach ($httpRes->data as $data){
 
+
             // check if Api data already exists
 
-            $check = ($model::where('email', '=', $data->email));
+            $check = $model ::where('email', '=', $data->email);
             if ($check->exists())
             {
                 exit('data from this api already exist on database');
@@ -21,6 +24,7 @@ class ModelCollectionService implements ModelCollectionServiceInterface
             }
 
                 $model = new $model;
+                $model->id = $data->id;
                 $model->first_name = $data->first_name;
                 $model->last_name = $data->last_name;
                 $model->email = $data->email;

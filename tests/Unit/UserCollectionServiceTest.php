@@ -2,9 +2,7 @@
 
 namespace Tests\Unit;
 
-
 use App\Models\User;
-
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -21,21 +19,23 @@ class UserCollectionServiceTest extends TestCase
    public function  test_user_model_exists()
 
    {
-       $user = User::factory()->create();
+       $model = User::factory()->create();
 
-       $this->assertModelExists($user);
+       $this->assertModelExists($model);
    }
 
 
     public function test_custom_url_request()
     {
-        $page = 1;
-        $url = 'https://reqres.in/api/users';
+        $page = $this->faker->randomDigitNotZero();
+        $url = $this->faker->url();
+
         $externalApiService = $this->getMockBuilder('ExternalApiService')
             ->setMethods(['consumeUrl'])
             ->getMock();
         $externalApiService->expects($this->once())->method('consumeUrl')->willReturn(true);
-        $this->assertTrue($externalApiService->consumeUrl($url,$page));
+
+        $this->assertTrue($externalApiService->consumeUrl($url, $page));
 
     }
 }

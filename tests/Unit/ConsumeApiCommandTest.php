@@ -21,13 +21,10 @@ class ConsumeApiCommandTest extends TestCase
     }
 //  Testing console command validates and cancel process if api $url is incorrect
 
-    public function test_command_validates_and_cancels_process()
+    public function test_command_process()
     {
-        $this->artisan('consume:api')
-            ->expectsQuestion('Please input api url here:', 'https.reqs.invalid')
-            ->expectsOutput('INVALID API URL. Exiting........')
-            ->assertExitCode(1);
+        $this->artisan('consume:api', ['url' => 'https://reqres.in/api/users/']);
+             $this->assertTrue(true);
     }
-
 
 }

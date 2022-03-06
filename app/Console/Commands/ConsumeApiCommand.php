@@ -17,11 +17,11 @@ class ConsumeApiCommand extends Command
      *
      * @var string
      */
-    // Added option for paginated page number {?page}
-    protected $signature = 'consume:api {--?page}';
+    // Added argument for Api Ur and option for paginated page number {?page}
+    protected $signature = 'consume:api {url} {--page=}';
 
     /**
-     * The console command description.
+     * The console command description
      *
      * @var string
      */
@@ -31,7 +31,7 @@ class ConsumeApiCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @return
      */
     public function __construct()
     {
@@ -46,38 +46,33 @@ class ConsumeApiCommand extends Command
     public function handle(ModelCollectionService $modelCollectionService, ExternalApiService $externalApiService)
     {
 
-        //This ask Api Url Input
+//      Using try catch all error
 
-        $url = $this->ask('Please input api url here:');
+        try {
+            $page = $this->option('page');
+            $url = $this->argument('url');
 
-        //Validates Url Input
+            // Taking Api Url Here
 
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            $this->error("INVALID API URL. Exiting........");
-            return 1;
+            $response = $externalApiService->consumeUrl($url, $page);
+
+            //Decode the data from HTTP response
+
+            $httpRes = json_decode($response);
+
+            //This calls the  modelCollection service class passing in new instance of user model
+
+            $model = new User;
+            $modelCollectionService->modelCollection($model, $httpRes);
+
+        }catch (\Exception $e){
+            $this->error($e->getMessage());
+            exit('Oops!!! please check url is correct');
         }
-
-        //here we added the page number as options
-
-        $page = $this->option('?page');
-
-        // Taking Api Url Here
-
-        $response = $externalApiService->consumeUrl($url, $page);
-
-        //Decode the data from HTTP response
-
-        $httpRes = json_decode($response);
-
-
-        //This calls the  modelCollection service class passing in new instance of user model
-
-        $model = new User;
-        $modelCollectionService->modelCollection( $model , $httpRes);
 
         //This echo out the stored user table in terminal
 
-         $headers = ['ID','FirstName', 'LastName','Email','Avatar'];
+         $headers = ['ID','FirstName','LastName','Email','Avatar'];
          $users = User::Select('id','first_name','last_name','email','avatar')->get();
          $this->table($headers,$users);
 
