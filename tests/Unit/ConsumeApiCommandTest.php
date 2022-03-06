@@ -17,11 +17,13 @@ class ConsumeApiCommandTest extends TestCase
     public function test_consume_api_command_exist()
     {
         DB::beginTransaction();
-// Testing is console command exist
+
+// Testing if console command exist
 
         $this->assertTrue(class_exists(ConsumeApiCommand::class));
     }
-//  Testing console command validates and cancel process if api $url is incorrect
+
+//  Testing console command process
 
     public function test_command_process()
     {
